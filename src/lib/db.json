@@ -1,0 +1,33 @@
+{
+  "users": [
+    {
+      "id": "u_1786011592751",
+      "email": "0xajaykumar@gmail.com",
+      "password": "Login@123",
+      "displayName": "Ajay",
+      "isSeller": false,
+      "createdAt": "2026-08-06T10:19:52.751Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "p1",
+      "sellerId": "s1",
+      "title": "Vintage Camera",
+      "description": "A beautiful vintage film camera in working condition.",
+      "price": 150,
+      "imageUrl": "https://images.unsplash.com/photo-1516961642265-531546e84af2?auto=format&fit=crop&q=80&w=800",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "p2",
+      "sellerId": "s1",
+      "title": "Mechanical Keyboard",
+      "description": "Custom built mechanical keyboard with linear switches.",
+      "price": 200,
+      "imageUrl": "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&q=80&w=800",
+      "createdAt": "2024-01-02T00:00:00Z"
+    }
+  ],
+  "orders": []
+}

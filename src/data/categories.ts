@@ -70,11 +70,6 @@ export const CATEGORIES: Category[] = [
     ]
   },
   {
-    "name": "Cash on Delivery",
-    "slug": "cod",
-    "subcategories": []
-  },
-  {
     "name": "Clothings and Accessories",
     "slug": "clothings-and-accessories",
     "subcategories": [

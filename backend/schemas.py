@@ -84,13 +84,13 @@ class OrderCreate(BaseModel):
 
 class OrderItem(OrderItemBase):
     id: int
-    order_id: str
+    order_id: int
 
     class Config:
         from_attributes = True
 
 class Order(BaseModel):
-    id: str
+    id: int
     buyer_id: str
     total_amount: float
     shipping_address: str

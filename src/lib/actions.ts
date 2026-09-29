@@ -191,7 +191,8 @@ export async function placeOrder(buyerId: string, items: any[], totalAmount: num
         seller_id: i.sellerId,
         title: i.title,
         price: i.price,
-        quantity: i.quantity
+        quantity: i.quantity,
+        image_url: i.image_url
       })),
       total_amount: totalAmount,
       shipping_address: shippingAddress

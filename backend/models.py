@@ -42,7 +42,7 @@ class Product(Base):
 class Order(Base):
     __tablename__ = "orders"
 
-    id = Column(String, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     buyer_id = Column(String, ForeignKey("users.id"))
     total_amount = Column(Float)
     shipping_address = Column(String)
@@ -55,7 +55,7 @@ class OrderItem(Base):
     __tablename__ = "order_items"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    order_id = Column(String, ForeignKey("orders.id"))
+    order_id = Column(Integer, ForeignKey("orders.id"))
     product_id = Column(String)
     seller_id = Column(String)
     title = Column(String)

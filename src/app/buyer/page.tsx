@@ -63,8 +63,24 @@ export default function BuyerDashboard() {
                 <h4 style={{ marginBottom: '0.5rem' }}>Items:</h4>
                 <ul style={{ listStyle: 'none' }}>
                   {order.items.map((item: any, idx: number) => (
-                    <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: idx < order.items.length - 1 ? '1px dashed var(--border)' : 'none' }}>
-                      <span>{item.title} (x{item.quantity})</span>
+                    <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: idx < order.items.length - 1 ? '1px dashed var(--border)' : 'none', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <div style={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden', backgroundColor: '#f1f5f9', flexShrink: 0 }}>
+                          {item.image_url ? (
+                            <img src={item.image_url.startsWith('/') ? `http://localhost:8000${item.image_url}` : item.image_url} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          ) : (
+                            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            </div>
+                          )}
+                        </div>
+                        <span 
+                          onClick={(e) => { e.stopPropagation(); router.push(`/product?id=${item.product_id}`); }}
+                          style={{ cursor: 'pointer', color: 'var(--primary)', textDecoration: 'underline' }}
+                        >
+                          {item.title} (x{item.quantity})
+                        </span>
+                      </div>
                       <span>₹{item.price}</span>
                     </li>
                   ))}
@@ -121,7 +137,12 @@ export default function BuyerDashboard() {
                         )}
                       </div>
                       <div>
-                        <div style={{ fontWeight: 500 }}>{item.title}</div>
+                        <div 
+                          style={{ fontWeight: 500, cursor: 'pointer', color: 'var(--primary)', textDecoration: 'underline' }}
+                          onClick={(e) => { e.stopPropagation(); router.push(`/product?id=${item.product_id}`); }}
+                        >
+                          {item.title}
+                        </div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Quantity: {item.quantity}</div>
                       </div>
                     </div>

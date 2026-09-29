@@ -75,7 +75,12 @@ export default function CartPage() {
                 )}
                 
                 <div style={{ flex: 1 }}>
-                  <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{product.title}</h3>
+                  <h3 
+                    style={{ fontSize: '1.25rem', marginBottom: '0.5rem', cursor: 'pointer', color: 'var(--primary)', textDecoration: 'underline' }}
+                    onClick={() => router.push(`/product?id=${product.id}`)}
+                  >
+                    {product.title}
+                  </h3>
                   <p style={{ color: 'var(--primary)', fontWeight: 700 }}>₹{price}</p>
                 </div>
                 

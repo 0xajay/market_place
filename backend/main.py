@@ -221,15 +221,23 @@ def get_product(product_id: str, db: Session = Depends(get_db)):
     return prod
 
 
+from fastapi import Request
+
 @app.post("/api/upload")
-def upload_files(files: List[UploadFile] = File(...)):
+def upload_files(request: Request, files: List[UploadFile] = File(...)):
     urls = []
     for file in files:
         filename = f"{uuid.uuid4()}_{file.filename}"
         file_path = os.path.join("uploads", filename)
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-        urls.append(f"/uploads/{filename}")
+        
+        # Use request.base_url to form an absolute URL
+        base_url = str(request.base_url)
+        if base_url.endswith("/"):
+            base_url = base_url[:-1]
+            
+        urls.append(f"{base_url}/uploads/{filename}")
     return {"urls": urls}
 
 
@@ -341,7 +349,6 @@ def clear_cart(buyer_id: str, db: Session = Depends(get_db)):
 @app.post("/api/orders", response_model=schemas.Order)
 def place_order(order: schemas.OrderCreate, db: Session = Depends(get_db)):
     new_order = models.Order(
-        id="o_" + str(uuid.uuid4()),
         buyer_id=order.buyer_id,
         total_amount=order.total_amount,
         shipping_address=order.shipping_address

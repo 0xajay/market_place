@@ -221,16 +221,66 @@ def get_product(product_id: str, db: Session = Depends(get_db)):
     return prod
 
 
+from io import BytesIO
+try:
+    from PIL import Image
+except ImportError:
+    Image = None
+
+from supabase import create_client, Client
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+supabase: Client = None
+if SUPABASE_URL and SUPABASE_KEY:
+    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+def compress_image(image_bytes: bytes, max_size=(1024, 1024), quality=85) -> bytes:
+    if not Image:
+        return image_bytes
+    try:
+        img = Image.open(BytesIO(image_bytes))
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+        img.thumbnail(max_size, Image.Resampling.LANCZOS)
+        output = BytesIO()
+        img.save(output, format="JPEG", quality=quality, optimize=True)
+        return output.getvalue()
+    except Exception as e:
+        print(f"Image compression failed: {e}")
+        return image_bytes
+
 from fastapi import Request
 
 @app.post("/api/upload")
-def upload_files(request: Request, files: List[UploadFile] = File(...)):
+async def upload_files(request: Request, files: List[UploadFile] = File(...)):
     urls = []
     for file in files:
-        filename = f"{uuid.uuid4()}_{file.filename}"
+        file_bytes = await file.read()
+        compressed_bytes = compress_image(file_bytes)
+        
+        # We save as JPEG since we convert RGBA to RGB and save as JPEG
+        filename = f"{uuid.uuid4()}.jpg"
+        
+        if supabase:
+            try:
+                supabase.storage.from_("product-images").upload(
+                    path=filename, 
+                    file=compressed_bytes, 
+                    file_options={"content-type": "image/jpeg"}
+                )
+                url = supabase.storage.from_("product-images").get_public_url(filename)
+                urls.append(url)
+                continue
+            except Exception as e:
+                print(f"Supabase upload failed: {e}")
+                # Fallback to local
+                pass
+
+        # Fallback local storage
         file_path = os.path.join("uploads", filename)
         with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+            buffer.write(compressed_bytes)
         
         # Use request.base_url to form an absolute URL
         base_url = str(request.base_url)

@@ -112,7 +112,8 @@ export default function SellerDashboard() {
       if (files.length > 0) {
         const formData = new FormData();
         files.forEach(file => formData.append('files', file));
-        const uploadRes = await fetch('http://localhost:8000/api/upload', {
+        const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+        const uploadRes = await fetch(`${API_BASE}/upload`, {
           method: 'POST',
           body: formData,
         });
@@ -683,7 +684,7 @@ export default function SellerDashboard() {
                       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                         <div style={{ width: '48px', height: '48px', borderRadius: '6px', overflow: 'hidden', backgroundColor: '#f1f5f9', flexShrink: 0 }}>
                           {item.image_url ? (
-                            <img src={item.image_url.startsWith('/') ? `http://localhost:8000${item.image_url}` : item.image_url} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={item.image_url.startsWith('/') ? `${(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace('/api', '')}${item.image_url}` : item.image_url} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           ) : (
                             <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>
                               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>

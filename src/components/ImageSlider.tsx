@@ -30,7 +30,7 @@ export default function ImageSlider({ images }: { images: string[] }) {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <img
-        src={images[currentIndex].startsWith('/') ? `http://localhost:8000${images[currentIndex]}` : images[currentIndex]}
+        src={images[currentIndex].startsWith('/') ? `${(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace('/api', '')}${images[currentIndex]}` : images[currentIndex]}
         alt={`Slide ${currentIndex}`}
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />

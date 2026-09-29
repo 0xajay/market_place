@@ -25,7 +25,7 @@ export default function ProductGallery({ images }: { images: string[] }) {
   };
 
   const formatImageUrl = (url: string) => {
-    return url.startsWith('/') ? `http://localhost:8000${url}` : url;
+    return url.startsWith('/') ? `${(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace('/api', '')}${url}` : url;
   };
 
   return (

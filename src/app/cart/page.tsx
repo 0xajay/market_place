@@ -67,7 +67,7 @@ export default function CartPage() {
             return (
               <div key={item.id} style={{ display: 'flex', gap: '1.5rem', marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border)' }}>
                 {product.image_urls && product.image_urls.length > 0 ? (
-                  <img src={product.image_urls[0].startsWith('/') ? `http://localhost:8000${product.image_urls[0]}` : product.image_urls[0]} alt={product.title} style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '0.5rem' }} />
+                  <img src={product.image_urls[0].startsWith('/') ? `${(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace('/api', '')}${product.image_urls[0]}` : product.image_urls[0]} alt={product.title} style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '0.5rem' }} />
                 ) : (
                   <div style={{ width: '100px', height: '100px', backgroundColor: 'var(--border)', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <span style={{ color: 'var(--text-muted)' }}>No Image</span>

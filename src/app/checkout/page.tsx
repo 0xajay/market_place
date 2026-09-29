@@ -173,7 +173,7 @@ export default function CheckoutPage() {
                 <div key={idx} style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: idx < checkoutItems.length - 1 ? '1px solid var(--border)' : 'none' }}>
                   <div style={{ width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#f1f5f9', flexShrink: 0 }}>
                     {product.image_urls && product.image_urls.length > 0 && (
-                      <img src={product.image_urls[0].startsWith('/') ? `http://localhost:8000${product.image_urls[0]}` : product.image_urls[0]} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={product.image_urls[0].startsWith('/') ? `${(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace('/api', '')}${product.image_urls[0]}` : product.image_urls[0]} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     )}
                   </div>
                   <div style={{ flex: 1 }}>

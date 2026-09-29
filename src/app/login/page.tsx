@@ -98,7 +98,8 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const user = await loginUser(email, password);
-      login(user);
+      const normalized = normalizeUser(user);
+      login(normalized);
       router.push('/');
     } catch (err: any) {
       setError(err.message || 'Failed to login');

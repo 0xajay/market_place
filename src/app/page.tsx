@@ -38,8 +38,9 @@ function ProductCard({ product, index }: { product: any; index: number }) {
   );
 }
 
-export default async function HomePage({ searchParams }: { searchParams: { category?: string } }) {
-  const category = searchParams.category;
+export default async function HomePage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
+  const resolvedSearchParams = await searchParams;
+  const category = resolvedSearchParams?.category;
   const products = await getProducts(category);
   
   const deals = products.filter((p: any) => p.discount_price && p.discount_price < p.price);
